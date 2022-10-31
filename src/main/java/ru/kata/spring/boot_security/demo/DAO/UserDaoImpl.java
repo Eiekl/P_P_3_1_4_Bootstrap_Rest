@@ -2,6 +2,7 @@ package ru.kata.spring.boot_security.demo.DAO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
@@ -9,16 +10,15 @@ import ru.kata.spring.boot_security.demo.model.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Repository
 public class UserDaoImpl implements UserDao {
-
+    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     @Autowired
-    RolesDao rolesDao;
+    private RolesDao rolesDao;
     @PersistenceContext
-    private final EntityManager entityManager;
+    private EntityManager entityManager;
 
     public UserDaoImpl(EntityManager entityManager) {
         this.entityManager = entityManager;
@@ -29,7 +29,7 @@ public class UserDaoImpl implements UserDao {
         if (getUserByName(user.getName()) != null) {
             return;
         }
-        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         entityManager.persist(user);
     }
 
@@ -52,7 +52,7 @@ public class UserDaoImpl implements UserDao {
     public void updateUser(int id, User updatedUser) {
         User user = getUserById(id);
         user.setUsername(updatedUser.getUsername());
-        user.setPassword(new BCryptPasswordEncoder().encode(updatedUser.getPassword()));
+        user.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
         user.setEmail(updatedUser.getEmail());
         user.setName(updatedUser.getName());
         user.setSurName(updatedUser.getSurName());
@@ -63,7 +63,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User getUserByName(String name) {
-        return entityManager.createQuery("select u from User u where u.username = :name"
+        return entityManager.createQuery("select u from User u JOIN FETCH u.roles where u.username = :name"
                 , User.class).setParameter("name", name).getResultList().stream().findFirst().orElse(null);
     }
 

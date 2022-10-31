@@ -25,7 +25,7 @@ public class User implements UserDetails {
 
     @Column(name = "password")
     private String password;
-    @ManyToMany (fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
+    @ManyToMany
     @JoinTable( name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
@@ -34,11 +34,7 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(int id, String name, String surName, String email, String username, String password, List<Role> roles) {
-        this.id = id;
-        this.name = name;
-        this.surName = surName;
-        this.email = email;
+    public User(String username, String password, List<Role> roles) {
         this.username = username;
         this.password = password;
         this.roles = roles;
