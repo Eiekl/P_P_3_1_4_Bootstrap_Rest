@@ -96,6 +96,14 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
+    public String getShortRoles () {
+        StringBuilder shortRoles = new StringBuilder();
+        for (Role rol : getRoles()) {
+            shortRoles.append(rol.getRole()).append(" ");
+        }
+        return shortRoles.toString().replaceAll("ROLE_", "");
+    }
+
     @Override
     public boolean isAccountNonExpired() {
         return true;

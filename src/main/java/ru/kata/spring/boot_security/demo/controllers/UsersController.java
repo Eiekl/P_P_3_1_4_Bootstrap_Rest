@@ -28,8 +28,10 @@ public class UsersController {
     }
 
     @GetMapping(value = "/admin")
-    public String printUsers(Model model) {
+    public String printUsers(Model model, Principal principal) {
         model.addAttribute("users", userService.getAllUsers());
+        model.addAttribute("currentUser", userService.getUserByUsername(principal.getName()));
+        model.addAttribute("newuser", new User());
         return "users";
     }
 
@@ -39,7 +41,7 @@ public class UsersController {
         return "new";
     }
 
-    @PostMapping(value = "/admin")
+    @PostMapping(value = "/admin/new")
     public String createUser(@ModelAttribute("user") User user) {
         userService.saveUser(user);
         return "redirect:/admin";
