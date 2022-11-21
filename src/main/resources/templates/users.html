@@ -28,7 +28,7 @@
 <div class="row vh-100">
     <div class="col-2">
         <nav class="nav nav-pills flex-column">
-            <a class="nav-link" href="/admin">Admin</a>
+            <a class="nav-link active" href="/admin">Admin</a>
             <a class="nav-link" href="/user">User</a>
         </nav>
     </div>
@@ -208,7 +208,7 @@
 
                                                     <div class="form-group">
                                                         <div class="col text-center"><b>Password</b></div>
-                                                        <input type="text" th:name="password"
+                                                        <input type="password" th:name="password"
                                                                class="form-control"
                                                                id="password"
                                                                th:value="${user.password}">
