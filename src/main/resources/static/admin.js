@@ -89,7 +89,8 @@ async function showPrincipal() {
     <td>${princ.name}</td>
     <td>${princ.surName}</td>
     <td>${princ.email}</td>
-    <td>${rol}</td></tr>`;
+    <td>${rol}</td>
+    </tr>`;
     let tab = `<h2>User information-page</h2> 
     <div class="tab-pane fade show active border" id="user_panel" role="tabpanel" aria-labelledby="home-tab">
     <div class="pl-3 pt-1 d-flex border-bottom">
