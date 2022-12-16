@@ -14,7 +14,9 @@ public interface UserDao {
     void removeUser (int id);
     List<User> getAllUsers();
     User getUserById (int id);
-    void updateUser (int id, User user);
+    void updateUser ( User user);
     User getUserByName (String name);
     List<Role> getRoles ();
+
+    List<Role> listByName(List<String> name);
 }

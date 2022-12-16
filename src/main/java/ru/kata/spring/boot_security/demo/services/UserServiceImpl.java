@@ -40,8 +40,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateUser(int id, User user) {
-        userDao.updateUser(id, user);
+    public void updateUser(User user) {
+        userDao.updateUser(user);
     }
 
     @Override
@@ -56,6 +56,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<Role> listByRole(List<String> name) {
+        return userDao.listByName(name);
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = getUserByUsername(username);
         if (user == null) {
@@ -64,5 +69,5 @@ public class UserServiceImpl implements UserService {
         return new User(user.getUsername(), user.getPassword(),
                 user.getRoles());
     }
-   }
+}
 

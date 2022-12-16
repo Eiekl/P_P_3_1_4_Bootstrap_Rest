@@ -49,16 +49,8 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public void updateUser(int id, User updatedUser) {
-        User user = getUserById(id);
-        user.setUsername(updatedUser.getUsername());
-        user.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
-        user.setEmail(updatedUser.getEmail());
-        user.setName(updatedUser.getName());
-        user.setSurName(updatedUser.getSurName());
-        user.setRoles(updatedUser.getRoles());
-
-        entityManager.merge(user);
+    public void updateUser(User user) {
+         entityManager.merge(user);
     }
 
     @Override
@@ -70,5 +62,12 @@ public class UserDaoImpl implements UserDao {
     @Override
     public List<Role> getRoles() {
         return rolesDao.findAll();
+    }
+
+    @Override
+    public List<Role> listByName(List<String> name) {
+        return entityManager.createQuery("select r FROM Role r WHERE r.role in (:id)", Role.class)
+                .setParameter("id", name)
+                .getResultList();
     }
 }
